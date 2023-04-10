@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to Store</h1>
+    </header>
+
+    <div id="auth"></div>
+
+    <div id="categories">
+      <div class="category" data-category="clothing">Clothing</div>
+      <div class="category" data-category="computer-components">
+        Computer Components
+      </div>
+      <div class="category" data-category="monitors">Monitors</div>
+      <div class="category" data-category="snacks">Snacks</div>
+    </div>
+
+    <div id="items">
+      <!-- Items will be displayed here -->
+    </div>
+
+    
+
+    <script>
+      const categories = document.querySelectorAll(".category");
+      const itemsContainer = document.getElementById("items");
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const loginButton = document.getElementById("login");
+
+      console.log("in index", sessionStorage);
+
+      function isLoggedIn() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        return user !== null;
+      }
+
+
+      async function fetchItems(category) {
+        try {
+          const response = await fetch(`/items?category=${category}`);
+          if (response.ok) {
+            return await response.json();
+          } else {
+            throw new Error("Failed to fetch items");
+          }
+        } catch (error) {
+          console.error("Error fetching items:", error);
+          return [];
+        }
+      }
+
+      async function displayItems(category) {
+        itemsContainer.innerHTML = "";
+
+        const items = await fetchItems(category);
+
+
+        items.forEach((item) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "item";
+          itemDiv.innerText = `Name: ${item.Name} \nPrice: ${item.Price}$`;
+          const itemDetailsLink = document.createElement("a");
+          itemDetailsLink.href = `item-details.html?id=${item._id}`;
+          itemDetailsLink.appendChild(itemDiv);
+          itemsContainer.appendChild(itemDetailsLink);
+        });
+      }
+
+      async function displayAuth(){
+        document.getElementById("auth").innerHTML = "";
+        if(isLoggedIn()){
+          const storageData = JSON.parse(sessionStorage.getItem('user'));
+          console.log("user", storageData.user)
+          const authDiv = document.createElement("div");
+          authDiv.className = "auth";
+          authDiv.innerText = `Welcome ${storageData.user.UserName}`;
+          const logoutButton = document.createElement("button");
+          logoutButton.innerText = "Logout";
+          logoutButton.addEventListener("click", () => {
+            sessionStorage.removeItem('user');
+            displayAuth();
+          });
+          authDiv.appendChild(logoutButton);
+          document.getElementById("auth").appendChild(authDiv);
+        }else{
+          const authDiv = document.createElement("div");
+          authDiv.className = "auth";
+          const usernameLabel = document.createElement("label");
+          usernameLabel.innerText = "Username: ";
+          const usernameInput = document.createElement("input");
+          usernameInput.id = "username";
+          usernameLabel.appendChild(usernameInput);
+          authDiv.appendChild(usernameLabel);
+          const passwordLabel = document.createElement("label");
+          passwordLabel.innerText = "Password: ";
+          const passwordInput = document.createElement("input");
+          passwordInput.id = "password";
+          passwordLabel.appendChild(passwordInput);
+          authDiv.appendChild(passwordLabel);
+          const loginButton = document.createElement("button");
+          loginButton.id = "login";
+          loginButton.innerText = "Login";
+          loginButton.addEventListener("click", () => {
+            login(usernameInput.value, passwordInput.value);
+            displayAuth();
+          });
+          authDiv.appendChild(loginButton);
+          document.getElementById("auth").appendChild(authDiv);
+        }
+      }
+
+      async function login(username, password) {
+        try {
+          const response = await fetch("/users/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ UserName : username, Password: password }),
+          });
+          if (response.ok) {
+            alert("Logged in successfully");
+            const loggedInUser = await response.json();
+            console.log("loggedInUser", loggedInUser)
+            sessionStorage.setItem('user', JSON.stringify(loggedInUser));
+            return loggedInUser;
+          } else {
+            throw new Error("Failed to login");
+          }
+        } catch (err) {
+          console.error("Error logging in:", err);
+          return [];
+        }
+      }
+
+      displayAuth();
+
+      categories.forEach((category) => {
+        category.addEventListener("click", () => {
+          displayItems(category.dataset.category);
+        });
+      });
+
+      itemsContainer.addEventListener('click', (event) => {
+        if (!isLoggedIn()) {
+          event.preventDefault();
+          alert('Please log in to access this page.');
+        }
+      });
+
+    </script>
+  </body>
+</html>

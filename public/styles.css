@@ -1,0 +1,130 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 15;
+    padding: 0;
+}
+
+header {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
+#categories {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.category {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0 10px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.category:hover {
+    background-color: #f1f1f1;
+}
+
+#items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+#auth {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#auth input {
+    margin-right: 10px;
+}
+
+#auth button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#auth button:hover {
+    background-color: #45a049;
+}
+
+/* Item Details Page Styles */
+
+#item-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#reviews {
+    margin-bottom: 20px;
+}
+
+#reviews-list {
+    margin-bottom: 20px;
+}
+
+#add-review {
+    margin-bottom: 20px;
+}
+
+#review-text {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+#submit-review {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#submit-review:hover {
+    background-color: #45a049;
+}
+
+.review {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.reviews-heading{
+    margin-bottom: 10px;
+    border-bottom: 3px solid #ccc;
+}
