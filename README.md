@@ -1,6 +1,6 @@
 # CENG 495 - Homework 1
 
-- Publicly accessible deployment URL is "xxx"
+- Publicly accessible deployment URL is `https://ceng-495-hw1.onrender.com`
 
 ## How to Login
 In order to login you need to fill `username` & `password` fields in the main page (i.e. `/`) of the app. Only admin users can register a new user. 
