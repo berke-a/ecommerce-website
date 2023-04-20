@@ -1,9 +1,13 @@
 import { Schema, model } from "mongoose";
+import { ObjectId } from "mongodb";
 
 const ReviewSchema = new Schema({
   User: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
+    required: true,
+  },
+  Item: {
+    type: ObjectId,
     required: true,
   },
   Body: {

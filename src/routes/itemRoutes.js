@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import {
   createItem,
+  deleteItem,
   getItemById,
   getItemsByCategory,
   createReview,
@@ -13,6 +14,7 @@ import {
 } from "../middlewares/authMiddleware.js";
 
 router.post("/", authMiddleware, createItem);
+router.delete("/:itemname", authMiddleware, deleteItem);
 router.post("/:id/reviews", authMiddleware, createReview);
 router.get("/", getItemsByCategory);
 router.get("/:id", authMiddleware, getItemById);

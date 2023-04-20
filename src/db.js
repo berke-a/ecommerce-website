@@ -14,3 +14,10 @@ export async function connectDb() {
   }
   return client;
 }
+
+export async function disconnectDb() {
+  if (client.isConnected) {
+    await client.close();
+  }
+}
+    

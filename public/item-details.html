@@ -83,14 +83,15 @@
         }
 
         async function displayItemDetails(item) {
-
+            console.log("in displayItemDetails", item);
 
             const itemDetails = document.createElement("div");
             itemDetails.classList.add("item-details");
 
             const itemImage = document.createElement("img");
             itemImage.classList.add("item-image");
-            itemImage.src = item.image;
+            console.log(item.Image);
+            itemImage.src = item.Image;
             itemDetails.appendChild(itemImage);
 
             const itemTitle = document.createElement("h2");
@@ -150,11 +151,13 @@
 
             // Display the reviews
             reviews.slice().reverse().forEach((review) => {
+                console.log(review);
                 const reviewElement = document.createElement("div");
                 reviewElement.classList.add("review");
 
                 const userName = document.createElement("span");
                 userName.classList.add("review-user");
+                console.log(review.User);
                 userName.innerText = `User: ${review.User}`;
                 reviewElement.appendChild(userName);
 

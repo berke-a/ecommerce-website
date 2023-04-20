@@ -4,6 +4,8 @@ import userRoutes from "./src/routes/userRoutes.js";
 import path from "path";
 import url from "url";
 import session from "express-session";
+import { logoutUser } from "./src/controllers/userController.js";
+import { connectDb, disconnectDb } from "./src/db.js";
 
 const app = express();
 app.use(express.json());
@@ -30,7 +32,7 @@ app.use("/users", userRoutes);
 
 async function exitHandler() {
   console.log("Closing MongoDB connection");
-  await client.close();
+  await disconnectDb();
   process.exit();
 }
 

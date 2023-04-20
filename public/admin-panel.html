@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <button id="return-home" class="return-home">Return to Homepage</button>
+
+    <header>
+        <h1>Admin Panel</h1>
+    </header>
+
+    <!-- Add Item Section -->
+    <section id="add-item">
+        <h2>Add Item</h2>
+        <!-- Add the form elements for adding a new item -->
+            <label for="item-name">Name:</label>
+            <input type="text" id="item-name" name="item-name" required>
+
+            <label for="item-category">Category:</label>
+            <select id="item-category" name="item-category" required>
+                <option value="clothing">Clothing</option>
+                <option value="computer-components">Computer Components</option>
+                <option value="monitors">Monitors</option>
+                <option value="snacks">Snacks</option>
+            </select>
+
+            <label for="item-description">Description:</label>
+            <input type="text" id="item-description" name="item-description" required>
+
+            <label for="item-price">Price:</label>
+            <input type="number" id="item-price" name="item-price" required>
+
+            <label for="item-image">Image:</label>
+            <input type="text" id="item-image" name="item-image" required>
+
+            <label for="item-size">Size (if clothing):</label>
+            <input type="text" id="item-size" name="item-size">
+
+            <label for="item-colour">Colour (if clothing):</label>
+            <input type="text" id="item-colour" name="item-colour">
+
+            <label for="item-spec">Spec (if computer component or monitor):</label>
+            <input type="text" id="item-spec" name="item-spec">
+            <!-- ... -->
+            <button id="add-item-button" type="submit">Add Item</button>
+
+    </section>
+
+    <!-- Remove Item Section -->
+    <section id="remove-item">
+        <h2>Remove Item</h2>
+        <!-- Add the form elements for removing an item -->
+            <label for="item-name-remove">Item name:</label>
+            <input type="text" id="item-name-remove" name="item-name-remove" required>
+            <button id="remove-item-button" type="submit">Remove Item</button>
+    </section>
+
+    <!-- Add User Section -->
+    <section id="add-user">
+        <h2>Add User</h2>
+        <!-- Add the form elements for adding a new user -->
+            <label for="user-name">Username:</label>
+            <input type="text" id="user-name" name="user-name" required>
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" required>
+
+            <label for="role">Category:</label>
+            <select id="role" name="role" required>
+                <option value="admin">admin</option>
+                <option value="regular">regular</option>
+            </select>
+
+            <!-- ... -->
+            <button id="add-user-button" type="submit">Add User</button>
+
+    </section>
+
+    <!-- Remove User Section -->
+    <section id="remove-user">
+        <h2>Remove User</h2>
+        <!-- Add the form elements for removing a user -->
+            <label for="user-name-remove">Username:</label>
+            <input type="text" id="user-name-remove" name="user-name-remove" required>
+            <button id="remove-user-button" type="submit">Remove User</button>
+    </section>
+
+    <script>
+        // Add your client-side JavaScript code here for interacting with the server
+
+        const returnHomeButton = document.getElementById("return-home");
+        const storageData = JSON.parse(sessionStorage.getItem("user"));
+
+        returnHomeButton.addEventListener
+        returnHomeButton.addEventListener("click", () => {
+            window.location.href = "index.html";
+        });
+
+        // Add Item
+        async function addItem(item) {
+            console.log(item);
+          try {
+            const response = await fetch("/items", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                 "Authorization": `Bearer ${storageData.user._id}`,
+              },
+              body: JSON.stringify(item),
+            });
+            return response.ok;
+          } catch (err) {
+            console.error("Error adding item:", err);
+            return false;
+          }
+        }
+
+        // Remove Item
+        async function removeItem(itemName) {
+          try {
+            const response = await fetch(`/items/${itemName}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                 "Authorization": `Bearer ${storageData.user._id}`,
+              },
+            });
+            return response.ok;
+          } catch (err) {
+            console.error("Error removing item:", err);
+            return false;
+          }
+        }
+
+        // Add User
+        async function addUser(user) {
+            console.log(user);
+          try {
+            const response = await fetch("/users", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                 "Authorization": `Bearer ${storageData.user._id}`,
+              },
+              body: JSON.stringify(user),
+            });
+            return response.ok;
+          } catch (err) {
+            console.error("Error adding user:", err);
+            return false;
+          }
+        }
+
+        // Remove User
+        async function removeUser(username) {
+          try {
+            const response = await fetch(`/users/${username}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                 "Authorization": `Bearer ${storageData.user._id}`,
+              },
+            });
+            return response.ok;
+          } catch (err) {
+            console.error("Error removing user:", err);
+            return false;
+          }
+        }
+
+        // Add event listeners for the buttons
+        document.getElementById("add-item-button").addEventListener("click", async () => {
+          const newItem = {
+                Name: document.getElementById("item-name").value,
+                Category: document.getElementById("item-category").value,
+                Description: document.getElementById("item-description").value,
+                Price: parseFloat(document.getElementById("item-price").value),
+                Image: document.getElementById("item-image").value,
+                Size: document.getElementById("item-size").value,
+                Colour: document.getElementById("item-colour").value,
+                Spec: document.getElementById("item-spec").value,
+            };
+          if (await addItem(newItem)) {
+            alert("Item added successfully");
+          } else {
+            alert("Failed to add item");
+          }
+        });
+
+        document.getElementById("remove-item-button").addEventListener("click", async () => {
+          const itemName = document.getElementById("item-name-remove").value;
+          if (await removeItem(itemName)) {
+            alert("Item removed successfully");
+          } else {
+            alert("Failed to remove item");
+          }
+        });
+
+        document.getElementById("add-user-button").addEventListener("click", async () => {
+          const user = {
+            UserName: document.getElementById("user-name").value,
+            Password: document.getElementById("password").value,
+            Role: document.getElementById("role").value,
+          };
+          if (await addUser(user)) {
+            alert("User added successfully");
+          } else {
+            alert("Failed to add user");
+          }
+        });
+
+        document.getElementById("remove-user-button").addEventListener("click", async () => {
+          const username = document.getElementById("user-name-remove").value;
+          if (await removeUser(username)) {
+            alert("User removed successfully");
+          } else {
+            alert("Failed to remove user");
+          }
+        });
+    </script>
+</body>
+</html>

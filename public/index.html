@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
@@ -26,8 +26,6 @@
       <!-- Items will be displayed here -->
     </div>
 
-    
-
     <script>
       const categories = document.querySelectorAll(".category");
       const itemsContainer = document.getElementById("items");
@@ -38,10 +36,9 @@
       console.log("in index", sessionStorage);
 
       function isLoggedIn() {
-        const user = JSON.parse(sessionStorage.getItem('user'));
+        const user = JSON.parse(sessionStorage.getItem("user"));
         return user !== null;
       }
-
 
       async function fetchItems(category) {
         try {
@@ -62,7 +59,6 @@
 
         const items = await fetchItems(category);
 
-
         items.forEach((item) => {
           const itemDiv = document.createElement("div");
           itemDiv.className = "item";
@@ -74,23 +70,39 @@
         });
       }
 
-      async function displayAuth(){
+      async function displayAuth() {
         document.getElementById("auth").innerHTML = "";
-        if(isLoggedIn()){
-          const storageData = JSON.parse(sessionStorage.getItem('user'));
-          console.log("user", storageData.user)
+        if (isLoggedIn()) {
+          const storageData = JSON.parse(sessionStorage.getItem("user"));
+          console.log("user", storageData.user);
           const authDiv = document.createElement("div");
           authDiv.className = "auth";
           authDiv.innerText = `Welcome ${storageData.user.UserName}`;
           const logoutButton = document.createElement("button");
           logoutButton.innerText = "Logout";
           logoutButton.addEventListener("click", () => {
-            sessionStorage.removeItem('user');
+            sessionStorage.removeItem("user");
             displayAuth();
           });
           authDiv.appendChild(logoutButton);
+
+          const userProfileButton = document.createElement("button");
+          userProfileButton.innerText = "User Profile";
+          userProfileButton.addEventListener("click", () => {
+            window.location.href = "user-page.html";
+          });
+          authDiv.appendChild(userProfileButton);
+
+          // Check if the logged-in user is "admin"
+          if (storageData.user.Role === "admin") {
+            const adminLink = document.createElement("a");
+            adminLink.href = "admin-panel.html";
+            adminLink.innerText = "Admin Panel";
+            authDiv.appendChild(adminLink);
+          }
+
           document.getElementById("auth").appendChild(authDiv);
-        }else{
+        } else {
           const authDiv = document.createElement("div");
           authDiv.className = "auth";
           const usernameLabel = document.createElement("label");
@@ -124,16 +136,20 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ UserName : username, Password: password }),
+            body: JSON.stringify({ UserName: username, Password: password }),
           });
-          if (response.ok) {
+          if (response.status === 200) {
             alert("Logged in successfully");
             const loggedInUser = await response.json();
-            console.log("loggedInUser", loggedInUser)
-            sessionStorage.setItem('user', JSON.stringify(loggedInUser));
+            console.log("loggedInUser", loggedInUser);
+            sessionStorage.setItem("user", JSON.stringify(loggedInUser));
+            location.reload();
             return loggedInUser;
+          }
+          if (response.status === 401) {
+            alert("Invalid username or password");
           } else {
-            throw new Error("Failed to login");
+            alert("Login failed");
           }
         } catch (err) {
           console.error("Error logging in:", err);
@@ -149,13 +165,12 @@
         });
       });
 
-      itemsContainer.addEventListener('click', (event) => {
+      itemsContainer.addEventListener("click", (event) => {
         if (!isLoggedIn()) {
           event.preventDefault();
-          alert('Please log in to access this page.');
+          alert("Please log in to access this page.");
         }
       });
-
     </script>
   </body>
 </html>

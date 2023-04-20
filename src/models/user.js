@@ -16,13 +16,16 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  AverageRating: {
+    type: Number,
+    required: true,
+  },
   Reviews: [
     {
       type: Schema.Types.ObjectId,
       ref: "Review",
     },
   ],
-  Ratings: [Number],
 });
 
 // Middleware to hash passwords
