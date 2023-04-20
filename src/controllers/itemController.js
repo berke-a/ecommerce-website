@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import Item from "../models/item.js";
 import { connectDb } from "../db.js";
 import { ObjectId } from "mongodb";
-import Review from "../models/Review.js";
+import Review from "../models/review.js";
 
 
 export const createItem = async (req, res) => {
