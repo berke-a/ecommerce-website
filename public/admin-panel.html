@@ -112,6 +112,9 @@
               },
               body: JSON.stringify(item),
             });
+            if(response.status === 400){
+                alert("Missing required fields (i.e. name and price)");
+            }
             return response.ok;
           } catch (err) {
             console.error("Error adding item:", err);
@@ -121,6 +124,10 @@
 
         // Remove Item
         async function removeItem(itemName) {
+          if (!itemName) {
+            alert("Missing required fields (i.e. name)");
+            return false;
+          }
           try {
             const response = await fetch(`/items/${itemName}`, {
               method: "DELETE",
@@ -129,6 +136,9 @@
                  "Authorization": `Bearer ${storageData.user._id}`,
               },
             });
+            if (response.status === 400){
+                alert("Missing required fields (i.e. name)")
+            }
             return response.ok;
           } catch (err) {
             console.error("Error removing item:", err);
@@ -148,8 +158,12 @@
               },
               body: JSON.stringify(user),
             });
+            if (response.status === 400){
+                alert("Missing required fields (i.e. username, password and role)");
+            }
             return response.ok;
           } catch (err) {
+            alert("Error adding user:", err)
             console.error("Error adding user:", err);
             return false;
           }
@@ -157,6 +171,10 @@
 
         // Remove User
         async function removeUser(username) {
+          if (!username){
+            alert("Missing required fields (i.e. username)");
+            return false;
+          }
           try {
             const response = await fetch(`/users/${username}`, {
               method: "DELETE",
@@ -165,6 +183,12 @@
                  "Authorization": `Bearer ${storageData.user._id}`,
               },
             });
+            if (response.status === 400){
+                alert("Missing required fields (i.e. username)");
+            }
+            if (response.status === 401){
+                alert("You are not authorized to remove the user");
+            }
             return response.ok;
           } catch (err) {
             console.error("Error removing user:", err);

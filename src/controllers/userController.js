@@ -17,18 +17,22 @@ async function updateItemReviews(itemCollection, rmReview) {
 }
 
 export const loginUser = async (req, res) => {
-  //TODO: Error handling
-
   try {
     const { UserName, Password } = req.body;
 
     const client = await connectDb();
     const collection = client.db("ceng495-hw1").collection("Users");
     const user = await collection.findOne({ UserName: UserName });
-    const isMatch = await bcrypt.compare(Password, user.Password);
-    if (!user || !isMatch) {
-      return res.status(401).json({ message: "Invalid username or password" });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid username" });
     }
+    const isMatch = await bcrypt.compare(Password, user.Password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
     req.session.user = user;
     res.status(200).json({ user });
   } catch (error) {
@@ -38,7 +42,6 @@ export const loginUser = async (req, res) => {
 
 // Logout route
 export const logoutUser = async (req, res) => {
-  //TODO: Error handling
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ message: "Error logging out", err });
@@ -48,7 +51,6 @@ export const logoutUser = async (req, res) => {
 };
 
 export const getUserAttributes = async (req, res) => {
-  //TODO: Error handling
   try {
     const client = await connectDb();
     const collection = client.db("ceng495-hw1").collection("Users");
@@ -56,9 +58,6 @@ export const getUserAttributes = async (req, res) => {
       _id: new ObjectId(req.params._id),
     });
 
-    if (!user) {
-      return res.status(401).json({ message: "Invalid username or password" });
-    }
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Error getting user attributes", error });
@@ -66,17 +65,18 @@ export const getUserAttributes = async (req, res) => {
 };
 
 export const addUser = async (req, res) => {
-  //TODO: Error handling
-
   if (req.user.Role != "admin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
     const { UserName, Password, Role } = req.body;
-    console.log("in user controller", UserName, Password, Role);
+
+    if (!UserName || !Password || !Role) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
     const hashedPassword = await bcrypt.hash(Password, 12);
-    console.log("in user controller", UserName, hashedPassword, Role);
     const newUser = new User({
       UserName: UserName,
       Password: hashedPassword,
@@ -84,8 +84,6 @@ export const addUser = async (req, res) => {
       AverageRating: 0,
       Reviews: [],
     });
-
-    console.log("in user controller", newUser);
 
     const client = await connectDb();
     const collection = client.db("ceng495-hw1").collection("Users");
@@ -98,13 +96,16 @@ export const addUser = async (req, res) => {
 };
 
 export const removeUser = async (req, res) => {
-  //TODO: Error handling
   if (req.user.Role != "admin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   if (req.params.username == req.user.UserName) {
     return res.status(401).json({ message: "You cannot delete yourself" });
+  }
+
+  if (!req.params.username) {
+    return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
@@ -120,9 +121,7 @@ export const removeUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    //TODO: Delete user's reviews
     const userReviews = dbUser.Reviews;
-
     if (userReviews.length > 0) {
       userReviews.forEach(async (review) => {
         await updateItemReviews(itemCollection, review);
@@ -139,8 +138,6 @@ export const removeUser = async (req, res) => {
     }
 
     const result = await collection.deleteOne(query);
-    console.log("in user controller", result);
-
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ error: "An error occurred while deleting user" });

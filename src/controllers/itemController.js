@@ -4,21 +4,22 @@ import { connectDb } from "../db.js";
 import { ObjectId } from "mongodb";
 import Review from "../models/Review.js";
 
-const isValidObjectId = (id) => {
-  const validObjectIdPattern = new RegExp("^[0-9a-fA-F]{24}$");
-  return validObjectIdPattern.test(id);
-};
 
 export const createItem = async (req, res) => {
-  //TODO: Error handling
   if (req.user.Role != "admin") {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
     const item = new Item(req.body);
+
+    if (!item.Name || !item.Price) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
     item.Seller = req.user._id;
-    console.log("in item controller", item);
+    item.Rating = 0;
+    item.Reviews = [];
 
     const client = await connectDb();
     const collection = client.db("ceng495-hw1").collection("Items");
@@ -26,14 +27,18 @@ export const createItem = async (req, res) => {
 
     res.status(201).json(result);
   } catch (err) {
+    console.error("Error creating item:", err);
     res.status(500).json({ error: "An error occurred while creating item" });
   }
 };
 
 export const deleteItem = async (req, res) => {
-  //TOOD: Error handling
   if (req.user.Role != "admin") {
     return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  if (req.params.itemname == "") {
+    return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
@@ -44,12 +49,12 @@ export const deleteItem = async (req, res) => {
 
     res.status(200).json(result);
   } catch (err) {
+    console.error("Error deleting item:", err);
     res.status(500).json({ error: "An error occurred while deleting item" });
   }
 };
 
 export const getItemsByCategory = async (req, res) => {
-  //TODO: Error handling
   try {
     const client = await connectDb();
     const collection = client.db("ceng495-hw1").collection("Items");
@@ -57,7 +62,7 @@ export const getItemsByCategory = async (req, res) => {
     const items = await collection.find(query).toArray();
     return res.status(200).json(items);
   } catch (err) {
-    console.error("Error fetching items:", err);
+    console.error("Error fetching items by category:", err);
     return res
       .status(500)
       .json({ error: "An error occurred while fetching items" });
@@ -65,7 +70,6 @@ export const getItemsByCategory = async (req, res) => {
 };
 
 export const getItemById = async (req, res) => {
-  //TODO: Error handling
   try {
     const client = await connectDb();
     const collection = client.db("ceng495-hw1").collection("Items");
@@ -77,7 +81,7 @@ export const getItemById = async (req, res) => {
     console.log("fetched item is ", item);
     return res.status(200).json(item);
   } catch (err) {
-    console.error("Error fetching item:", err);
+    console.error("Error fetching item by id:", err);
     return res
       .status(500)
       .json({ error: "An error occurred while fetching item" });
@@ -85,7 +89,6 @@ export const getItemById = async (req, res) => {
 };
 
 export const createReview = async (req, res) => {
-  //TODO: Error handling
   try {
     const client = await connectDb();
     const itemCollection = client.db("ceng495-hw1").collection("Items");
@@ -101,6 +104,9 @@ export const createReview = async (req, res) => {
       return res.status(404).json({ error: "Item not found" });
     }
     item.Reviews.push(review);
+    item.Rating =
+      (item.Rating * (item.Reviews.length - 1) + review.Rating) /
+      item.Reviews.length;
     await itemCollection.replaceOne(query, item);
 
     req.user.Reviews.push(review);

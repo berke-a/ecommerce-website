@@ -138,6 +138,11 @@
             itemCategory.innerText = `Category: ${item.Category}`;
             itemDetails.appendChild(itemCategory);
 
+            const itemRating = document.createElement("p");
+            itemRating.classList.add("item-rating");
+            itemRating.innerText = `Average Rating: ${item.Rating}`;
+            itemDetails.appendChild(itemRating);
+
             itemDetailsContainer.appendChild(itemDetails);
 
             // Fetch reviews from the server and display them
@@ -198,6 +203,8 @@
             reviewElement.appendChild(reviewRating);
 
             reviewsContainer.insertBefore(reviewElement, reviewsContainer.firstChild);
+
+            location.reload();
         }
 
         async function submitReview() {
