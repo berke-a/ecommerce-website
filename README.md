@@ -14,7 +14,7 @@ Here is the sample admin account's credentials;
 ### Infrastructure:
 The application is built as a client-server model, which separates the frontend (HTML, CSS, and JavaScript) from the backend (server-side logic and database). This separation allows for easier maintenance, better scalability, and a clear separation of concerns.
 
-The backend is implemented using `Node.js` and `MongoDB`.
+The backend of the application is implemented using `Node.js`, and it utilizes a `MongoDB` database for efficient data storage and management.
 
 There are two main entities in the application: items and users. They can be represented as separate tables in the database, with the following schema:
 ##
