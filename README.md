@@ -1,15 +1,49 @@
-# README
+# CENG 495 - Homework 1
 
-This is the [Express](https://expressjs.com) [Hello world](https://expressjs.com/en/starter/hello-world.html) example on [Render](https://render.com).
+- Publicly accessible deployment URL is "xxx"
 
-The app in this repo is deployed at [https://express.onrender.com](https://express.onrender.com).
+## How to Login
+In order to login you need to fill `username` & `password` fields in the main page (i.e. `/`) of the app. Only admin users can register a new user. 
 
-## Deployment
+Here is the sample admin account's credentials;
+- UserName: admin
+- Password: admin
 
-See https://render.com/docs/deploy-node-express-app or follow the steps below:
+## Design Choices
 
-Create a new web service with the following values:
-  * Build Command: `yarn`
-  * Start Command: `node app.js`
+### Infrastructure:
+The application is built as a client-server model, which separates the frontend (HTML, CSS, and JavaScript) from the backend (server-side logic and database). This separation allows for easier maintenance, better scalability, and a clear separation of concerns.
 
-That's it! Your web service will be live on your Render URL as soon as the build finishes.
+The backend is implemented using `Node.js`. `MongoDB` is used as the database.
+
+There are two main entities in the application: items and users. They can be represented as separate tables in the database, with the following schema:
+##
+- Items:
+  - ID (Primary Key)
+  - Name
+  - Description
+  - Category
+  - Seller
+  - Image
+  - Price
+  - Additional attributes specific to the category (e.g., Size, Color, Spec, etc.)
+  - Average Rating
+  - Reviews (Foreign Key referencing Reviews table)
+##
+- Users:
+  - ID (Primary Key)
+  - UserName
+  - Password (hashed and salted for security)
+  - Average Rating
+  - Reviews (Foreign Key referencing Reviews table)
+##
+- Reviews:
+  - ID (Primary Key)
+  - UserID (Foreign Key referencing Users table)
+  - ItemID (Foreign Key referencing Items table)
+  - Rating
+  - Body
+##
+Using a relational database allows for efficient querying and ensures data integrity through the use of primary and foreign keys, as well as other constraints.
+
+In summary, the design choices for this application focus on simplicity, modularity, and a clear separation of concerns. A client-server model is used to separate frontend and backend logic, and a relational database is used to store structured data with relationships between entities. These choices provide a solid foundation for building a scalable and maintainable application.
