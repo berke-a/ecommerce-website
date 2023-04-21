@@ -3,7 +3,7 @@
 - Publicly accessible deployment URL is [`https://ceng-495-hw1.onrender.com`](https://ceng-495-hw1.onrender.com)
 
 ## How to Login
-In order to login you need to fill `username` & `password` fields in the main page (i.e. `/`) of the app. Only admin users can register a new user. 
+In order to login you need to fill `username` & `password` fields in the main page (i.e. `/`) of the app. There isn't any additional steps for both admin and regular users. If the loggedin user's role is `admin` then there will be an additional button in the home page that routes to admin panel. Only admin users can register a new user. 
 
 Here is the sample admin account's credentials;
 - UserName: admin
