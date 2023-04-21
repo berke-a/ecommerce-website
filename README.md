@@ -46,4 +46,4 @@ There are two main entities in the application: items and users. They can be rep
 ##
 Using a relational database allows for efficient querying and ensures data integrity through the use of primary and foreign keys, as well as other constraints.
 
-In summary, the design choices for this application focus on simplicity, modularity, and a clear separation of concerns. A client-server model is used to separate frontend and backend logic, and a relational database is used to store structured data with relationships between entities. These choices provide a solid foundation for building a scalable and maintainable application.
+In summary, the design choices for this application focus on simplicity, modularity, and a clear separation of concerns. A client-server model is used to separate frontend and backend logic, with Node.js serving as the backend and MongoDB as the relational database used to store structured data with relationships between entities. These choices provide a solid foundation for building a scalable and maintainable application.
