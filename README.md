@@ -1,23 +1,33 @@
 # CENG 495 - Homework 1
 
-- Publicly accessible deployment URL is [`https://ceng-495-hw1.onrender.com`](https://ceng-495-hw1.onrender.com)
+The app is deployed on `Render`, making it accessible to users online. 
+
+Publicly accessible deployment URL is [`https://ceng-495-hw1.onrender.com`](https://ceng-495-hw1.onrender.com)
 
 ## How to Login
 In order to login you need to fill `username` & `password` fields in the main page (i.e. `/`) of the app. There isn't any additional steps for both admin and regular users. If the loggedin user's role is `admin` then there will be an additional button in the home page that routes to admin panel. Only admin users can register a new user. 
 
-Here is the sample admin account's credentials;
+Here is the admin account's credentials;
 - UserName: _admin_
 - Password: _admin_
 
+
 ## Design Choices
 
-### Infrastructure:
-The application is built as a client-server model, which separates the frontend (HTML, CSS, and JavaScript) from the backend (server-side logic and database). This separation allows for easier maintenance, better scalability, and a clear separation of concerns.
+In this project, JavaScript was chosen as it's a widely-used language for both frontend and backend applications. It enables the creation of interactive web applications and is supported by modern web browsers.
 
-The backend of the application is implemented using `Node.js`, and it utilizes a `MongoDB` database for efficient data storage and management.
+The following frameworks were chosen:
+
+- **Node.js**: A server-side runtime environment for executing JavaScript, offering a non-blocking architecture suitable for handling multiple requests.
+- **Express.js**: A minimal web application framework for Node.js that simplifies the process of building web applications and APIs.
+- **MongoDB**: A NoSQL database handling large amounts of unstructured data, offering horizontal scaling and quick query performance.
+
+
+## Models
 
 There are two main entities in the application: items and users. They can be represented as separate tables in the database, with the following schema:
-##
+###
+
 - Items:
   - ID (Primary Key)
   - Name
@@ -29,21 +39,22 @@ There are two main entities in the application: items and users. They can be rep
   - Additional attributes specific to the category (e.g., Size, Color, Spec, etc.)
   - Average Rating
   - Reviews (Foreign Key referencing Reviews table)
-##
+###
+
 - Users:
   - ID (Primary Key)
   - UserName
   - Password (hashed and salted for security)
   - Average Rating
   - Reviews (Foreign Key referencing Reviews table)
-##
+###
+
 - Reviews:
   - ID (Primary Key)
   - UserID (Foreign Key referencing Users table)
   - ItemID (Foreign Key referencing Items table)
   - Rating
   - Body
-##
-Using a relational database allows for efficient querying and ensures data integrity through the use of primary and foreign keys, as well as other constraints.
+###
 
 In summary, the design choices for this application focus on simplicity, modularity, and a clear separation of concerns. A client-server model is used to separate frontend and backend logic, with Node.js serving as the backend and MongoDB as the relational database used to store structured data with relationships between entities. These choices provide a solid foundation for building a scalable and maintainable application.
