@@ -45,6 +45,13 @@ header {
     text-align: center;
 }
 
+.item-image {
+    max-width: 300px; /* Adjust this value according to your needs */
+    max-height: 300px; /* Adjust this value according to your needs */
+    width: auto;
+    height: auto;
+}
+
 #auth {
     display: flex;
     justify-content: center;

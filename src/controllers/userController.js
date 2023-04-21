@@ -10,6 +10,17 @@ async function updateItemReviews(itemCollection, rmReview) {
   const newReviews = reviewedItem.Reviews.filter(
     (r) => r.User != rmReview.User
   );
+
+  let newSum = 0;
+  newReviews.forEach((r) => {
+    newSum += r.Rating;
+  });
+  reviewedItem.Rating = newSum / newReviews.length;
+
+  await itemCollection.updateOne(
+    { _id: rmReview.Item },
+    { $set: { Rating: reviewedItem.Rating } }
+  );
   await itemCollection.updateOne(
     { _id: rmReview.Item },
     { $set: { Reviews: newReviews } }
