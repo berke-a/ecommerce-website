@@ -78,7 +78,6 @@ export const getItemById = async (req, res) => {
     const item = await collection.findOne(query);
     const seller = await userCollection.findOne({ _id: item.Seller });
     item.Seller = seller.UserName;
-    console.log("fetched item is ", item);
     return res.status(200).json(item);
   } catch (err) {
     console.error("Error fetching item by id:", err);

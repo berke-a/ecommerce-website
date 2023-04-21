@@ -21,10 +21,6 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   console.log("Session:", req.session);
-//   next();
-// });
 
 //Routes
 app.use("/items", itemRoutes);
@@ -46,7 +42,6 @@ app.listen(port, () =>
 app.get("/", (req, res) => {
   const collection = client.db("ceng495-hw1").collection("Items");
   items = collection.find().toArray();
-  console.log("items", items);
 
   const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
   res.status(200).sendFile(__dirname + "/public/index.html");

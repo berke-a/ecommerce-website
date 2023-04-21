@@ -6,7 +6,6 @@ import { ObjectId } from "mongodb";
 
 async function updateItemReviews(itemCollection, rmReview) {
   const reviewedItem = await itemCollection.findOne({ _id: rmReview.Item });
-  console.log("here:", reviewedItem);
   const newReviews = reviewedItem.Reviews.filter(
     (r) => r.User != rmReview.User
   );
@@ -124,7 +123,6 @@ export const removeUser = async (req, res) => {
     const collection = client.db("ceng495-hw1").collection("Users");
     const itemCollection = client.db("ceng495-hw1").collection("Items");
 
-    console.log("in user controller", req.params.username);
     const query = { UserName: req.params.username };
     const dbUser = await collection.findOne(query);
 
