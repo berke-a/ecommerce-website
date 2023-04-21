@@ -5,7 +5,7 @@ The app is deployed on `Render`, making it accessible to users online.
 Publicly accessible deployment URL is [`https://ceng-495-hw1.onrender.com`](https://ceng-495-hw1.onrender.com)
 
 ## How to Login
-In order to login you need to fill `username` & `password` fields in the main page (i.e. `/`) of the app. There isn't any additional steps for both admin and regular users. If the loggedin user's role is `admin` then there will be an additional button in the home page that routes to admin panel. Only admin users can register a new user. 
+You need to login to review and see the details of the item. User can login by filling `username` & `password` fields in the main page (i.e. `/`) of the app. There isn't any extra steps to login for both admin and regular users. If the logged in user's role is `admin` then there will be an additional button in the home page that routes to admin panel. Only admin users can register a new user and item. 
 
 Here is the admin account's credentials;
 - UserName: _admin_
