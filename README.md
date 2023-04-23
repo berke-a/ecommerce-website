@@ -2,7 +2,7 @@
 
 The app is deployed on `Render`.
 
-Publicly accessible deployment URL is [`https://ceng-495-hw1.onrender.com`](https://ceng-495-hw1.onrender.com)
+Publicly accessible deployment URL is [https://ceng-495-hw1.onrender.com](https://ceng-495-hw1.onrender.com)
 
 ## User Guide
 
@@ -20,7 +20,8 @@ If the authenticated user is an admin, the admin page can be accessed via the `A
   * `Add an item` by filling in the fields and choosing a category. Note that `size`, `color`, and `spec` fields are exclusive to some categories; therefore, even if they are filled, they won't be displayed for the user on the item details page.
   * `Remove an item` by entering the item's name.
   * `Add a user` by entering the `UserName`, `Password`, and `Role`. If the username is already in use, an error message will be displayed.
-  * `Remove a user` by entering the user's name.
+  * `Remove a user` by entering the user's name. After removing the user, reviews made by that user will also be deleted, and the average rating will be updated accordingly.
+
 
 Here is the admin account's information;
 - UserName: _admin_
