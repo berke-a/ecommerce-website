@@ -15,7 +15,6 @@
     </header>
 
     <div id="item-details">
-        <!-- Item details will be displayed here -->
     </div>
 
     <div id="reviews">
@@ -36,7 +35,6 @@
             <button id="submit-review">Submit Review</button>
         </div>
         <div id="reviews-list">
-            <!-- Reviews will be displayed here -->
         </div>
         
     </div>
@@ -62,7 +60,6 @@
 
 
         async function fetchItemDetails(id) {
-            // Fetch item details from the server using the item ID
             try {
             const response = await fetch(`/items/${id}`,{
                     method: "GET",
@@ -145,16 +142,13 @@
 
             itemDetailsContainer.appendChild(itemDetails);
 
-            // Fetch reviews from the server and display them
             displayReviews(item.Reviews);
         }
 
         function displayReviews(reviews) {
-            //Display review number
             reviewNumber = reviews.length;
             updateReviewsHeading(reviewNumber);
 
-            // Display the reviews
             reviews.slice().reverse().forEach((review) => {
                 console.log(review);
                 const reviewElement = document.createElement("div");
@@ -183,7 +177,6 @@
         function appendReview(review) {
             updateReviewsHeading(++reviewNumber);
 
-            // Append a review to the reviews list
             const reviewElement = document.createElement("div");
             reviewElement.classList.add("review");
 
@@ -208,7 +201,6 @@
         }
 
         async function submitReview() {
-            // Submit the review to the server and update the reviews list
             const review = {
                 Body: reviewText.value,
                 Rating: ratingSelect.value,

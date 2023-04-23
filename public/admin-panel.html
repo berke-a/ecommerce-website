@@ -14,10 +14,8 @@
         <h1>Admin Panel</h1>
     </header>
 
-    <!-- Add Item Section -->
     <section id="add-item">
         <h2>Add Item</h2>
-        <!-- Add the form elements for adding a new item -->
             <label for="item-name">Name:</label>
             <input type="text" id="item-name" name="item-name" required>
 
@@ -46,24 +44,19 @@
 
             <label for="item-spec">Spec (if computer component or monitor):</label>
             <input type="text" id="item-spec" name="item-spec">
-            <!-- ... -->
             <button id="add-item-button" type="submit">Add Item</button>
 
     </section>
 
-    <!-- Remove Item Section -->
     <section id="remove-item">
         <h2>Remove Item</h2>
-        <!-- Add the form elements for removing an item -->
             <label for="item-name-remove">Item name:</label>
             <input type="text" id="item-name-remove" name="item-name-remove" required>
             <button id="remove-item-button" type="submit">Remove Item</button>
     </section>
 
-    <!-- Add User Section -->
     <section id="add-user">
         <h2>Add User</h2>
-        <!-- Add the form elements for adding a new user -->
             <label for="user-name">Username:</label>
             <input type="text" id="user-name" name="user-name" required>
             <label for="password">Password:</label>
@@ -75,22 +68,18 @@
                 <option value="regular">regular</option>
             </select>
 
-            <!-- ... -->
             <button id="add-user-button" type="submit">Add User</button>
 
     </section>
 
-    <!-- Remove User Section -->
     <section id="remove-user">
         <h2>Remove User</h2>
-        <!-- Add the form elements for removing a user -->
             <label for="user-name-remove">Username:</label>
             <input type="text" id="user-name-remove" name="user-name-remove" required>
             <button id="remove-user-button" type="submit">Remove User</button>
     </section>
 
     <script>
-        // Add your client-side JavaScript code here for interacting with the server
 
         const returnHomeButton = document.getElementById("return-home");
         const storageData = JSON.parse(sessionStorage.getItem("user"));
@@ -100,7 +89,6 @@
             window.location.href = "index.html";
         });
 
-        // Add Item
         async function addItem(item) {
             console.log(item);
           try {
@@ -122,7 +110,6 @@
           }
         }
 
-        // Remove Item
         async function removeItem(itemName) {
           if (!itemName) {
             alert("Missing required fields (i.e. name)");
@@ -146,7 +133,6 @@
           }
         }
 
-        // Add User
         async function addUser(user) {
             console.log(user);
           try {
@@ -169,7 +155,6 @@
           }
         }
 
-        // Remove User
         async function removeUser(username) {
           if (!username){
             alert("Missing required fields (i.e. username)");
@@ -196,7 +181,6 @@
           }
         }
 
-        // Add event listeners for the buttons
         document.getElementById("add-item-button").addEventListener("click", async () => {
           const newItem = {
                 Name: document.getElementById("item-name").value,

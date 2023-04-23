@@ -22,7 +22,7 @@ app.use(
 );
 
 
-//Routes
+// routes
 app.use("/items", itemRoutes);
 app.use("/users", userRoutes);
 

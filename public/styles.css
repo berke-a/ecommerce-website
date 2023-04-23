@@ -46,8 +46,8 @@ header {
 }
 
 .item-image {
-    max-width: 300px; /* Adjust this value according to your needs */
-    max-height: 300px; /* Adjust this value according to your needs */
+    max-width: 300px; 
+    max-height: 300px; 
     width: auto;
     height: auto;
 }
@@ -80,7 +80,6 @@ header {
     background-color: #45a049;
 }
 
-/* Item Details Page Styles */
 
 #item-details {
     display: flex;

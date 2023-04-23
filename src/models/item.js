@@ -20,9 +20,9 @@ const ItemSchema = new Schema({
     required: true,
   },
   Image: String,
-  Size: String, // if clothing
-  Colour: String, // if clothing
-  Spec: String, // if computer component and monitor
+  Size: String,
+  Colour: String,
+  Spec: String,
   Rating: {
     type: Number,
     default: 0,

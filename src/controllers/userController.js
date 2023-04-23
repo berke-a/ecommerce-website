@@ -50,7 +50,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// Logout route
 export const logoutUser = async (req, res) => {
   req.session.destroy((err) => {
     if (err) {

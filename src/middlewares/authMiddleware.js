@@ -26,7 +26,6 @@ export const authMiddleware = async (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  // Validate the token (in this case, just check if it's a valid user ID)
   const client = await connectDb();
   const collection = client.db("ceng495-hw1").collection("Users");
   const user = await collection.findOne({ _id: new ObjectId(token) });
@@ -35,7 +34,6 @@ export const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid token" });
   }
 
-  // Attach the user object to the request so it's available in the route handler
   req.user = user;
   next();
 };

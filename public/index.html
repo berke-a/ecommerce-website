@@ -23,7 +23,6 @@
     </div>
 
     <div id="items">
-      <!-- Items will be displayed here -->
     </div>
 
     <script>
@@ -93,7 +92,6 @@
           });
           authDiv.appendChild(userProfileButton);
 
-          // Check if the logged-in user is "admin"
           if (storageData.user.Role === "admin") {
             const adminLink = document.createElement("a");
             adminLink.href = "admin-panel.html";
