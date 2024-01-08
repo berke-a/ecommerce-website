@@ -74,3 +74,25 @@ There are two main entities in the application: `Items` and `Users`. They can be
   - Rating
   - Body
 ###
+
+## API Endpoints
+
+### User Routes ( /users )
+
+| Method   | Endpoint       | Description                        |
+| -------- | -------------- | ---------------------------------- |
+| POST     | /login         | Authenticate a user                |
+| POST     | /              | Add a user (admin only)            |
+| DELETE   | /:username     | Remove a user (admin only)         |
+| GET      | /:_id          | Get user attributes (admin only)   |
+
+### Item Routes ( /items )
+
+| Method   | Endpoint       | Description                        |
+| -------- | -------------- | ---------------------------------- |
+| POST     | /              | Create an item (authenticated users)|
+| DELETE   | /:itemname     | Delete an item (authenticated users)|
+| POST     | /:id/reviews   | Create a review for an item (authenticated users)|
+| GET      | /              | Get items by category              |
+| GET      | /:id           | Get an item by ID (authenticated users)|
+
