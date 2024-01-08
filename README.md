@@ -1,6 +1,6 @@
 # E-Commerce Website
 
-This is my web application for the first homework of Ceng495 Cloud Computing course. The main focus was on the backend of the project.
+This is my web application for the first homework of **Ceng495 Cloud Computing** course. The main focus was on the **backend** of the project.
 
 The app is deployed on `Render`.
 
